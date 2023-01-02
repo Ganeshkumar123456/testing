@@ -23,7 +23,6 @@ app.post("/postsendemail",(req,res)=>{
     console.log(req.body);
     const sendEmail = async()=>{
         const email = process.env.FROM_EMAIL
-        const shortCode = nanoid(6).toUpperCase()
         try{
       const params = {
         Source:email,
@@ -43,8 +42,7 @@ app.post("/postsendemail",(req,res)=>{
         },
       };
       details.push(params);
-      res.json(params);
- 
+
       const emailSent = await SES.sendEmail(params).promise()
       emailSent.then(data=>{
        console.log("Email sent successfully",data);
@@ -52,12 +50,12 @@ app.post("/postsendemail",(req,res)=>{
       .catch(err=>{
         console.log(err)
       })
-    
+      res.json(params);
         } catch(error){
             console.log(error)
         }
     };
-    res.send("welcome to post AWS",sendEmail());   
+    res.send(sendEmail());   
     })
 app.listen(port,()=>{
     console.log(`server is running on port ${port}`)
