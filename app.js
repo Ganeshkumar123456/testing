@@ -1,10 +1,7 @@
 import express from 'express';
 import env  from 'dotenv';
-import { details } from './students.js'
 import AWS  from 'aws-sdk';
-import { nanoid }  from 'nanoid';
 import cors from 'cors';
-// const sendEmail = require('./ses.js');
 const app =express();
 app.use(express.json());
 const port = 3000;
@@ -41,16 +38,13 @@ app.post("/postsendemail",(req,res)=>{
             },
         },
       };
-      details.push(params);
-
-      const emailSent = await SES.sendEmail(params).promise()
-      emailSent.then(data=>{
+      SES.sendEmail(params).promise().then(data=>{
        console.log("Email sent successfully",data);
       })
       .catch(err=>{
         console.log(err)
       })
-      res.json(params);
+    
         } catch(error){
             console.log(error)
         }
