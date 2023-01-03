@@ -38,8 +38,7 @@ app.post("/postsendemail",(req,res)=>{
             },
         },
       };
-      const emailSent = await SES.sendEmail(params).promise()
-      emailSent.then(data=>{
+      SES.sendEmail(params).promise().then(data=>{
        console.log("Email sent successfully",data);
       })
       .catch(err=>{
